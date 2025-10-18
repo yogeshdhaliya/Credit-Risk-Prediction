@@ -42,24 +42,24 @@ This project strictly adhered to critical findings from a previous failed attemp
 
 credit-risk-project/
 ├── .streamlit/
-│   └── config.toml             # Streamlit theme configuration (dark mode)
+│   └── config.toml            
 ├── app/
-│   ├── Home.py                 # Main Streamlit page (Dashboard)
+│   ├── Home.py                 
 │   └── pages/
 │       ├── 1_Batch_Prediction.py
 │       ├── 2_Single_Applicant_Prediction.py
 │       └── 3_How_to_Use.py
 ├── data/
-│   ├── raw/                    # Original applicant_data.csv, bureau_data.csv
-│   └── processed/              # Cleaned data (X_model_input.csv, y_target.csv)
-├── docs/                       # Business problem description, feature dictionary
-├── models/                     # Saved final model (tuned_model.joblib), preprocessor, encoders
-├── notebooks/                  # Jupyter notebooks for each project phase (01-05)
-├── src/                        # (Optional: Folder for reusable Python scripts/functions)
+│   ├── raw/                    
+│   └── processed/              
+├── docs/                       
+├── models/                     
+├── notebooks/                  
+├── src/                       
 ├── .gitignore
-├── README.md                   # Project overview file
-├── requirements.txt            # Project dependencies
-└── venv/                       # Virtual environment directory
+├── README.md                   
+├── requirements.txt         
+└── venv/                     
 
 ---
 

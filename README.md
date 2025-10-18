@@ -37,24 +37,24 @@ Guided by lessons from a prior failed attempt, the project addressed these core 
 ```
 credit-risk-project/
 ├── .streamlit/
-│   └── config.toml             # Dark theme configuration
+│   └── config.toml             
 ├── app/
-│   ├── Home.py                 # Dashboard with insights & navigation
+│   ├── Home.py                 
 │   └── pages/
-│       ├── 1_Batch_Prediction.py  # CSV upload & batch predictions
-│       ├── 2_Single_Applicant_Prediction.py  # Manual form for one applicant
-│       └── 3_How_to_Use.py     # User guide & interpretations
+│       ├── 1_Batch_Prediction.py  
+│       ├── 2_Single_Applicant_Prediction.py  
+│       └── 3_How_to_Use.py     
 ├── data/
-│   ├── raw/                    # Original CSVs (applicant_data.csv, bureau_data.csv)
-│   └── processed/              # Cleaned data (X_model_input.csv, y_target.csv)
-├── docs/                       # Business memos, feature dictionary
-├── models/                     # Pipelines (tuned_model.joblib, preprocessor.joblib)
-├── notebooks/                  # Phase-wise Jupyter notebooks (01_EDA.ipynb, etc.)
-├── src/                        # Reusable scripts (e.g., data_loader.py)
+│   ├── raw/                    
+│   └── processed/              
+├── docs/                       
+├── models/                     
+├── notebooks/                  
+├── src/                        
 ├── .gitignore
-├── README.md                   # This file
-├── requirements.txt            # Dependencies
-└── venv/                       # Virtual environment
+├── README.md                   
+├── requirements.txt            
+└── venv/                       
 ```
 
 ---

@@ -14,6 +14,7 @@ st.set_page_config(
     layout="wide"
 )
 
+
 # --- 2. Define File Paths (RELATIVE PATHS) ---
 try:
     APP_DIR = pathlib.Path(__file__).parent

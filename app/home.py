@@ -3,8 +3,8 @@ import pandas as pd
 import joblib
 import os
 import plotly.express as px
-import numpy as np # Needed for AGE/Income plot
-
+import numpy as np 
+import pathlib 
 # --- 1. Configuration ---
 st.set_page_config(
     page_title="Credit Risk Prediction",
@@ -13,10 +13,16 @@ st.set_page_config(
 )
 
 # --- 2. Define File Paths ---
-PROJECT_ROOT = "/Users/yogeshdhaliya/Desktop/DS Learning/11. Projects/Credit-Risk-Prediction"
-MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "tuned_model.joblib")
-Y_TARGET_PATH = os.path.join(PROJECT_ROOT, "data", "processed", "y_target.csv")
-X_INPUT_PATH = os.path.join(PROJECT_ROOT, "data", "processed", "X_model_input.csv")
+try:
+    APP_DIR = pathlib.Path(__file__).parent
+except NameError:
+    APP_DIR = pathlib.Path.cwd()
+
+PROJECT_ROOT = APP_DIR.parent
+
+MODEL_PATH = PROJECT_ROOT / "models" / "tuned_model.joblib"
+Y_TARGET_PATH = PROJECT_ROOT / "data" / "processed" / "y_target.csv"
+X_INPUT_PATH = PROJECT_ROOT / "data" / "processed" / "X_model_input.csv"
 
 # --- 3. Load Assets (Cached) ---
 # Use decorators AFTER import st
@@ -27,7 +33,10 @@ def load_model():
         model = joblib.load(MODEL_PATH)
         return model
     except FileNotFoundError:
-        st.error(f"Error: Tuned model file not found at {MODEL_PATH}")
+        st.error(f"Error: Tuned model file not found. Looked at: {MODEL_PATH}")
+        return None
+    except Exception as e:
+        st.error(f"An error occurred loading the model: {e}")
         return None
 
 @st.cache_data
@@ -39,8 +48,11 @@ def load_data():
         viz_df = pd.concat([y, x_viz], axis=1)
         return y, viz_df
     except FileNotFoundError:
-        st.error(f"Error: Data files not found. Check paths: {Y_TARGET_PATH}, {X_INPUT_PATH}")
+        st.error(f"Error: Data files not found. Check paths: {Y_TARGET_PATH} and {X_INPUT_PATH}")
         return None, None
+    except Exception as e:
+        st.error(f"An error occurred loading the data: {e}")
+        return None, Nones
 
 model = load_model()
 y, viz_df = load_data()

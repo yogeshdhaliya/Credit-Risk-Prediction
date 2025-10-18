@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 import os
 import numpy as np
-
+import pathlib
 # --- 1. Configuration and Asset Loading ---
 st.set_page_config(
     page_title="Credit Risk | Single Prediction",
@@ -11,11 +11,21 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- 2. Define File Paths ---
-PROJECT_ROOT = "/Users/yogeshdhaliya/Desktop/DS Learning/11. Projects/Credit-Risk-Prediction"
-MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "tuned_model.joblib")
-ENCODER_PATH = os.path.join(PROJECT_ROOT, "models", "target_encoder.joblib")
-DATA_PATH = os.path.join(PROJECT_ROOT, "data", "processed", "X_model_input.csv")
+# --- 2. Define File Paths (RELATIVE PATHS) ---
+# Get the directory of the current script (e.g., /.../pages/)
+try:
+    APP_DIR = pathlib.Path(__file__).parent
+except NameError:
+    # Handle cases where __file__ is not defined
+    APP_DIR = pathlib.Path.cwd()
+
+# Get the project root directory (two levels up from 'pages/')
+PROJECT_ROOT = APP_DIR.parent.parent
+
+# Define paths relative to the project root
+MODEL_PATH = PROJECT_ROOT / "models" / "tuned_model.joblib"
+ENCODER_PATH = PROJECT_ROOT / "models" / "target_encoder.joblib"
+DATA_PATH = PROJECT_ROOT / "data" / "processed" / "X_model_input.csv" # Used for column names
 
 # --- 3. Feature Map ---
 # (Keep the FEATURE_MAP dictionary exactly as it was before)

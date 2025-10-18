@@ -14,5 +14,9 @@ __pycache__/
 # Data files
 data/raw/
 data/processed/
+# EXCEPTIONS: Keep these specific files for Streamlit deployment
+!data/processed/X_model_input.csv
+!data/processed/y_target.csv
+
 notebooks/credit_risk_profile.html
 .Streamlit/

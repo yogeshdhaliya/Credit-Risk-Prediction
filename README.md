@@ -23,7 +23,7 @@ The project tackled core data and modeling challenges head-on:
 
 | Challenge | Problem | Solution |
 |-----------|---------|----------|
-| **Data Leakage** (Top Priority) | Target leakage (`Credit_Score`) and 26+ post-approval features (e.g., payment history). | Dropped all leaking columns *immediately* after loading, using data dictionary analysis *before* EDA/preprocessing. Ensures model uses only valid pre-approval data. |
+| **Data Leakage** | Target leakage (`Credit_Score`) and 26+ post-approval features (e.g., payment history). | Dropped all leaking columns *immediately* after loading, using data dictionary analysis *before* EDA/preprocessing. Ensures model uses only valid pre-approval data. |
 | **Data Quality & Multicollinearity** | `-99999` null placeholders; redundant totals (e.g., `Total_TL` = `Active_TL + Closed_TL`). | Replaced `-99999` with `np.nan` upfront. Used **VIF analysis** post-preprocessing to drop composites; kept granular features (e.g., `Auto_TL`) for explainability. |
 | **Feature Encoding** | Mixed categorical types; ordinal `EDUCATION`; dummy trap risk. | Custom `OrdinalEncoder` for `EDUCATION`. `OneHotEncoder(drop='first')` for nominals (e.g., `GENDER`). |
 | **Class Imbalance** | ~63% P2 dominance; minorities (P1, P3, P4) at risk of being ignored. | `stratify=y` in splits; **SMOTE** in `imblearn.pipeline.Pipeline` (applied *only* to training folds in CV); evaluated via `f1-macro`. |

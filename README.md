@@ -4,8 +4,6 @@
 
 This project implements an **end-to-end multi-class classification model** to predict the credit risk category (**P1, P2, P3, P4**) for loan applicants. The final deliverable is an interactive **Streamlit web application** designed for underwriting teams to automate and streamline risk assessment.
 
-**Project Focus:** A rebuild emphasizing best practices, correcting past errors like data leakage and class imbalance handling.
-
 ---
 
 ## 🎯 Business Problem
@@ -19,16 +17,16 @@ Lending institutions must accurately assess applicant risk to minimize defaults 
 
 ---
 
-## 🔑 Key Findings & Solutions
+## 🔑 Challenges & Solutions
 
-Guided by lessons from a prior failed attempt, the project addressed these core issues:
+The project tackled core data and modeling challenges head-on:
 
-| # | Challenge | Problem | Solution |
-|---|-----------|---------|----------|
-| **1** | **Data Leakage** (❗ #1 Priority) | Target leakage (`Credit_Score`) and 26+ post-approval features (e.g., payment history). | Dropped all leaking columns *immediately* after loading, using data dictionary analysis—*before* EDA/preprocessing. Ensures model uses only valid pre-approval data. |
-| **2** | **Data Quality & Multicollinearity** | `-99999` null placeholders; redundant totals (e.g., `Total_TL` = `Active_TL + Closed_TL`). | Replaced `-99999` with `np.nan` upfront. Used **VIF analysis** post-preprocessing to drop composites; kept granular features (e.g., `Auto_TL`) for explainability. |
-| **3** | **Feature Encoding** | Mixed categorical types; ordinal `EDUCATION`; dummy trap risk. | Custom `OrdinalEncoder` for `EDUCATION`. `OneHotEncoder(drop='first')` for nominals (e.g., `GENDER`). |
-| **4** | **Class Imbalance** | ~63% P2 dominance; minorities (P1, P3, P4) ignored. | `stratify=y` in splits; **SMOTE** in `imblearn.pipeline.Pipeline` (applied *only* to training folds in CV); evaluated via `f1-macro`. |
+| Challenge | Problem | Solution |
+|-----------|---------|----------|
+| **Data Leakage** (Top Priority) | Target leakage (`Credit_Score`) and 26+ post-approval features (e.g., payment history). | Dropped all leaking columns *immediately* after loading, using data dictionary analysis *before* EDA/preprocessing. Ensures model uses only valid pre-approval data. |
+| **Data Quality & Multicollinearity** | `-99999` null placeholders; redundant totals (e.g., `Total_TL` = `Active_TL + Closed_TL`). | Replaced `-99999` with `np.nan` upfront. Used **VIF analysis** post-preprocessing to drop composites; kept granular features (e.g., `Auto_TL`) for explainability. |
+| **Feature Encoding** | Mixed categorical types; ordinal `EDUCATION`; dummy trap risk. | Custom `OrdinalEncoder` for `EDUCATION`. `OneHotEncoder(drop='first')` for nominals (e.g., `GENDER`). |
+| **Class Imbalance** | ~63% P2 dominance; minorities (P1, P3, P4) at risk of being ignored. | `stratify=y` in splits; **SMOTE** in `imblearn.pipeline.Pipeline` (applied *only* to training folds in CV); evaluated via `f1-macro`. |
 
 ---
 
@@ -37,34 +35,34 @@ Guided by lessons from a prior failed attempt, the project addressed these core 
 ```
 credit-risk-project/
 ├── .streamlit/
-│   └── config.toml             
+│   └── config.toml                             # Dark theme configuration
 ├── app/
-│   ├── Home.py                 
+│   ├── Home.py                                 # Dashboard with insights & navigation
 │   └── pages/
-│       ├── 1_Batch_Prediction.py  
-│       ├── 2_Single_Applicant_Prediction.py  
-│       └── 3_How_to_Use.py     
+│       ├── 1_Batch_Prediction.py               # CSV upload & batch predictions
+│       ├── 2_Single_Applicant_Prediction.py    # Manual form for one applicant
+│       └── 3_How_to_Use.py                     # User guide & interpretations
 ├── data/
-│   ├── raw/                    
-│   └── processed/              
-├── docs/                       
-├── models/                     
-├── notebooks/                  
-├── src/                        
+│   ├── raw/                                    # Original CSVs (applicant_data.csv, bureau_data.csv)
+│   └── processed/                              # Cleaned data (X_model_input.csv, y_target.csv)
+├── docs/                                       # Business memos, feature dictionary
+├── models/                                     # Pipelines (tuned_model.joblib, preprocessor.joblib)
+├── notebooks/                                  # Phase-wise Jupyter notebooks (01_EDA.ipynb, etc.)
+├── src/                                        # Reusable scripts (e.g., data_loader.py)
 ├── .gitignore
-├── README.md                   
-├── requirements.txt            
-└── venv/                       
+├── README.md                                   # This file
+├── requirements.txt                            # Dependencies
+└── venv/                                       # Virtual environment
 ```
 
 ---
 
 ## 🛠️ Workflow Summary
 
-The project followed a structured ML lifecycle across 6 phases:
+The project follows a structured ML lifecycle across 7 phases:
 
 1. **Phase 0: Setup** – Project scaffolding, venv, requirements.
-2. **Phase 1: Data Loading & Cleaning** – Merge CSVs, apply leakage/null fixes.
+2. **Phase 1: Data Loading & Cleaning** – Merge CSVs, handle leakage and nulls.
 3. **Phase 2: EDA** – Stats tests (Chi2, ANOVA), visualizations; prune insignificant features.
 4. **Phase 3: Feature Engineering** – Build `ColumnTransformer` (impute, scale, encode); VIF-based selection → 38 features.
 5. **Phase 4: Baseline Modeling** – `imblearn.Pipeline` (Preprocess → SMOTE → XGBoost); Stratified CV with `f1-macro`.
@@ -75,12 +73,17 @@ The project followed a structured ML lifecycle across 6 phases:
 
 ## ✨ Final Model & Performance
 
-- **Algorithm:** Tuned `XGBClassifier` in `imblearn.Pipeline` (Preprocessor → SMOTE → XGBoost).
-- **Metrics:** `f1-macro` (balanced for imbalance).
-  - **Baseline:** 0.60 (P3 F1: 0.25).
-  - **Tuned:** 0.61 (P3 F1: 0.33; +32% improvement).
-- **Features:** 38 post-selection (e.g., enquiry history, income, account age).
-- **Stability:** Low CV std. dev.; CV ≈ Test scores.
+* **Algorithm:** Tuned `XGBClassifier` within an `imblearn.pipeline.Pipeline` (Preprocessor → SMOTE → XGBoost).
+* **Key Performance Metric:** `f1-macro` score (chosen for robustness against class imbalance).
+* **Final Features:** 38 features selected after rigorous leakage removal, VIF analysis, and EDA (examples include enquiry history, income, account age).
+* **Performance:**
+    * **Baseline Model (Phase 4):**
+        * Test `f1-macro`: **0.60**
+        * Test F1-Scores per Class: P1: 0.67, P2: 0.83, **P3: 0.25**, P4: 0.63
+    * **Tuned Model (Phase 5):**
+        * Test `f1-macro`: **0.61** (Overall improvement)
+        * Test F1-Scores per Class: P1: 0.67, P2: 0.81, **P3: 0.33** (+32% vs Baseline), P4: 0.63
+* **Stability:** Low standard deviation in cross-validation scores and a close match between CV and final test scores indicate a reliable and non-overfit model.
 
 ---
 

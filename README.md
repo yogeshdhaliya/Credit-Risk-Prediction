@@ -40,7 +40,26 @@ This project strictly adhered to critical findings from a previous failed attemp
 
 ## 📁 Project Structure
 
-/credit-risk-project/ |-- .streamlit/ | |-- config.toml # Streamlit theme configuration (dark mode) |-- app/ | |-- Home.py # Main Streamlit page (Dashboard) | |-- pages/ | | |-- 1_Batch_Prediction.py | | |-- 2_Single_Applicant_Prediction.py | | |-- 3_How_to_Use.py |-- data/ | |-- raw/ # Original applicant_data.csv, bureau_data.csv | |-- processed/ # Cleaned data (X_model_input.csv, y_target.csv) |-- docs/ # Business problem description, feature dictionary |-- models/ # Saved final model (tuned_model.joblib), preprocessor, encoders |-- notebooks/ # Jupyter notebooks for each project phase (01-05) |-- src/ # (Optional: Folder for reusable Python scripts/functions) |-- .gitignore |-- README.md # This file |-- requirements.txt # Project dependencies |-- venv/ # Virtual environment
+credit-risk-project/
+├── .streamlit/
+│   └── config.toml             # Streamlit theme configuration (dark mode)
+├── app/
+│   ├── Home.py                 # Main Streamlit page (Dashboard)
+│   └── pages/
+│       ├── 1_Batch_Prediction.py
+│       ├── 2_Single_Applicant_Prediction.py
+│       └── 3_How_to_Use.py
+├── data/
+│   ├── raw/                    # Original applicant_data.csv, bureau_data.csv
+│   └── processed/              # Cleaned data (X_model_input.csv, y_target.csv)
+├── docs/                       # Business problem description, feature dictionary
+├── models/                     # Saved final model (tuned_model.joblib), preprocessor, encoders
+├── notebooks/                  # Jupyter notebooks for each project phase (01-05)
+├── src/                        # (Optional: Folder for reusable Python scripts/functions)
+├── .gitignore
+├── README.md                   # Project overview file
+├── requirements.txt            # Project dependencies
+└── venv/                       # Virtual environment directory
 
 ---
 

@@ -1,4 +1,4 @@
-# Credit Risk Prediction Model & Streamlit App 📊
+# Credit Risk Prediction Model 📊
 
 ![Credit Risk Prediction](https://img.shields.io/badge/Status-Complete-green) ![Python Version](https://img.shields.io/badge/Python-3.8%2B-blue) ![License](https://img.shields.io/badge/License-MIT-yellow)
 
